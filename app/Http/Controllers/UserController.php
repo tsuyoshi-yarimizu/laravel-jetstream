@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -27,7 +30,7 @@ class UserController extends Controller
         $user = new User;
         $user->name = $request->get('name');
         $user->email = $request->get('email');
-        $user->password = bcrypt($request->get('password'));
+        $user->password = Hash::make($request->get('password'));
         $user->save();
 
         return redirect('/user');
@@ -47,7 +50,7 @@ class UserController extends Controller
         $user->name = $request->get('name');
         $user->email = $request->get('email');
         if ($request->get('new_password')) {
-            $user->password = bcrypt($request->get('new_password'));
+            $user->password = Hash::make($request->get('password'));
         }
         $user->save();
 
